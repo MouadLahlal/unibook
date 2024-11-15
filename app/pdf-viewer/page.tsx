@@ -28,7 +28,7 @@ export default function PDFViewer() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-	  setFile(searchParams.get('book') || "");
+    setFile(searchParams.get('book') || "");
   }, []);
 
   function onDocumentLoadSuccess({
@@ -53,23 +53,14 @@ export default function PDFViewer() {
 
   return (
     <>
-      <div className="border-b">
-        <div className="flex h-16 items-center px-4">
-          <h2 className="text-2xl ml-4 font-bold tracking-tight font-mono">unibook</h2>
-          <MainNav className="mx-6" />
-          <div className="ml-auto flex items-center space-x-4">
-            <Button>
-              <IconPlusSquare />
-            </Button>
-            <Search />
-            <UserNav />
-          </div>
-        </div>
-      </div>
+      <MainNav className="mx-6" />
 
       <div className="flex justify-center mx-auto z-20 my-2 w-[90%] h-[85vh] overflow-auto bg-slate-800 rounded-lg">
         <Document
-          file={file}
+          // file={file}
+          file={{
+            url: 'http://api.minio.mlahlal.duckdns.org/unibook/474065119d3f67c1dcaacd1ad505c134.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20241112%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241112T232036Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=6a319304bb4fb4fbf03be5f53636e8cb213701442537a20cea4b87fca7b2571e',
+          }}
           onLoadSuccess={onDocumentLoadSuccess}
           options={options}
           className=""
@@ -105,11 +96,11 @@ export default function PDFViewer() {
         >
           <span className="">zoom -</span>
         </Button>
-		<a href={file} download={file}>
-			<Button>
-				Download
-			</Button>
-		</a>
+        <a href={file} download={file}>
+          <Button>
+            Download
+          </Button>
+        </a>
         <Button
           onClick={() => {
             if (pageWidth + 200 < window.innerWidth) {

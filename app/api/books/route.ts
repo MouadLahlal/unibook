@@ -1,3 +1,5 @@
+import { pool } from "@/lib/db";
+import { storage } from "@/lib/storage";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = 'force-dynamic'
@@ -9,7 +11,19 @@ const headers = {
 };
 
 export async function GET(request: NextRequest) {
-	let books: string[] = ["Clickable.pdf", "Corso di informatica 3.pdf", "Il bello della letteratura.pdf", "LA matematica a colori VERDE 5.pdf", "Dall’idea alla startup.pdf", "Internetworking.pdf", "Project Work.pdf", "Noi nel tempo 3.pdf"];
+	const formatBooks = async (books: any) => await Promise.all(
+		books.map(async (book: any) => {
+			let presigned = await storage.presignedUrl("GET", "unibook", book.s3_filename, 24*60*60);
+			return ({
+				name: book.original_filename,
+				thumbnail: book.thumbnail,
+				url: presigned
+			});
+	}));
+
+	let books = await formatBooks(await pool.any("SELECT * FROM files WHERE account_id = $1", ["bellofigogu"]));
+
+	console.log(books);
 
 	return NextResponse.json({ books }, { status: 200, headers });
 }
