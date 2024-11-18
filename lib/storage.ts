@@ -2,7 +2,7 @@ import * as Minio from 'minio';
 import { pool } from './db';
 import * as crypto from "crypto";
 import { env } from "process";
-import { existsSync, lstat, statSync } from 'fs';
+import { existsSync, statSync } from 'fs';
 
 const bucket = 'unibook';
 
@@ -26,7 +26,7 @@ storage.bucketExists(bucket)
         console.error(error);
     });
 
-const uploadBook = async (bookPath: string, originalBookName: string, thumbnail: string) => {
+const uploadBook = async (bookPath: string, originalBookName: string, thumbnail: string, account_id: string) => {
     const randomName = crypto.randomBytes(16).toString('hex') + '.pdf';
 	const idBook = crypto.randomUUID();
     const metadata = {
@@ -34,7 +34,7 @@ const uploadBook = async (bookPath: string, originalBookName: string, thumbnail:
 	};
 
     const createNewBook = async (bookName: string) => {
-		const res = await pool.any("INSERT INTO files (id, original_filename, s3_filename, thumbnail, file_size, file_type) values ($1, $2, $3, $4, $5, $6)", [idBook, bookName, randomName, thumbnail, 12, "pdf"]);
+		const res = await pool.any("INSERT INTO files (id, account_id, original_filename, s3_filename, thumbnail, file_size, file_type) values ($1, $2, $3, $4, $5, $6, $7)", [idBook, account_id, bookName, randomName, thumbnail, 12, "pdf"]);
 		return res;
 	}
 	

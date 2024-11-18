@@ -26,8 +26,8 @@ const decrypt = (encryptedObj: {encrypted: string, iv: string}) => new Promise<s
 	resolve(decrypted);
 });
 
-const loginHubYoung = async () => {
-	const res = await pool.one("SELECT * FROM platform_credentials WHERE account_id = $1 AND platform_name = $2", ["bellofigogu", "hubyoung"]);
+const loginHubYoung = async (id: string) => {
+	const res = await pool.one("SELECT * FROM platform_credentials WHERE account_id = $1 AND platform_name = $2", [id, "hubyoung"]);
 
 	let decrypted_password = await decrypt(res.encrypted_password);
 
@@ -42,8 +42,8 @@ const loginHubYoung = async () => {
 	}
 }
 
-export async function GET() {
-	const hy = await loginHubYoung();
+export async function GET(request: NextRequest) {
+	const hy = await loginHubYoung(request.cookies.get("auth_token")?.value || "");
 
 	let books = await hy.getBooks();
 
@@ -53,11 +53,11 @@ export async function GET() {
 export async function POST(request: NextRequest) {
 	const data = await request.json();
 
-	const hy = await loginHubYoung();
+	const hy = await loginHubYoung(request.cookies.get("auth_token")?.value || "");
 	await hy.getBooks();
 	await hy.download(data.bookId);
 
-	await uploadBook(`./${data.bookName}.pdf`, data.bookName, data.thumbnail);
+	await uploadBook(`./${data.bookName}.pdf`, data.bookName, data.thumbnail, request.cookies.get("auth_token")?.value || "");
 
 	return NextResponse.json({ messaggio: "damn" }, { status: 200, headers });
 }

@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
 
 	// console.log("Decrypted password:", decrypted_password);
 
-	await pool.any("INSERT INTO platform_credentials (id, account_id, platform_name, platform_username, encrypted_password) values ($1, $2, $3, $4, $5)", [crypto.randomBytes(16).toString('hex'), "bellofigogu", "hubyoung", data.email, encryptedData]);
+	await pool.any("INSERT INTO platform_credentials (id, account_id, platform_name, platform_username, encrypted_password) values ($1, $2, $3, $4, $5)", [crypto.randomBytes(16).toString('hex'), request.cookies.get("auth_token")?.value || "", "hubyoung", data.email, encryptedData]);
 
 	return NextResponse.json({ messaggio: "damn" }, { status: 200, headers });
 }
