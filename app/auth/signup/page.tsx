@@ -1,7 +1,5 @@
 "use client"
 
-import Link from "next/link"
-
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -13,13 +11,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
-import { useStore } from "@/lib/store"
+import { useToast } from "@/hooks/use-toast"
 
 export default function LoginPage() {
 
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const { toast } = useToast();
 
     return (
         <div className="flex h-screen w-full items-center justify-center px-4">
@@ -30,6 +29,7 @@ export default function LoginPage() {
                         Enter your informations below to create a new account
                     </CardDescription>
                 </CardHeader>
+                
                 <CardContent>
                     <div className="grid gap-4">
                         <div className="grid gap-2">
@@ -73,15 +73,15 @@ export default function LoginPage() {
                                     password
                                 })
                             });
-                            let data = await res.json();
+
                             if (res.status == 200) {
+                                toast({
+                                    description: "Account created"
+                                });
                             }
                         }}>
                             Signup
                         </Button>
-                        {/* <Button variant="outline" className="w-full">
-                            Login with Google
-                        </Button> */}
                     </div>
                 </CardContent>
             </Card>

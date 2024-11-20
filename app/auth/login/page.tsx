@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -20,7 +19,7 @@ export default function LoginPage() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { user, setUser } = useStore();
+    const setUser = useStore((state) => state.setUser);
     const router = useRouter();
 
     return (
@@ -32,6 +31,7 @@ export default function LoginPage() {
                         Enter your email below to login to your account
                     </CardDescription>
                 </CardHeader>
+
                 <CardContent>
                     <div className="grid gap-4">
                         <div className="grid gap-2">
@@ -46,12 +46,7 @@ export default function LoginPage() {
                             />
                         </div>
                         <div className="grid gap-2">
-                            <div className="flex items-center">
-                                <Label htmlFor="password">Password</Label>
-                                <Link href="#" className="ml-auto inline-block text-sm underline">
-                                    Forgot your password?
-                                </Link>
-                            </div>
+                            <Label htmlFor="password">Password</Label>
                             <Input
                                 id="password"
                                 type="password"
@@ -59,6 +54,11 @@ export default function LoginPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
+                        </div>
+                        <div className="flex items-center">
+                            <Link href="#" className="ml-auto inline-block text-sm underline">
+                                Forgot your password?
+                            </Link>
                         </div>
                         <Button type="submit" className="w-full" onClick={async () => {
                             let res = await fetch("/api/auth/login", {
@@ -68,7 +68,9 @@ export default function LoginPage() {
                                     password
                                 })
                             });
+
                             let data = await res.json();
+                            
                             if (res.status == 200) {
                                 setUser(data.user);
                                 router.push("/");
@@ -76,13 +78,10 @@ export default function LoginPage() {
                         }}>
                             Login
                         </Button>
-                        {/* <Button variant="outline" className="w-full">
-                            Login with Google
-                        </Button> */}
                     </div>
                     <div className="mt-4 text-center text-sm">
                         Don&apos;t have an account?{" "}
-                        <Link href="/signup" className="underline">
+                        <Link href="/auth/signup" className="underline">
                             Sign up
                         </Link>
                     </div>

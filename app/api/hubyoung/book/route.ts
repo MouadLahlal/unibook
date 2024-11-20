@@ -37,7 +37,6 @@ const loginHubYoung = async (id: string) => {
 		await obj.login(res.platform_username, decrypted_password);
 		return obj;
 	} catch (error: any) {
-		// return NextResponse.json({message: error.message}, { status: 404, headers });
 		return error;
 	}
 }
@@ -54,10 +53,11 @@ export async function POST(request: NextRequest) {
 	const data = await request.json();
 
 	const hy = await loginHubYoung(request.cookies.get("auth_token")?.value || "");
+
 	await hy.getBooks();
 	await hy.download(data.bookId);
 
 	await uploadBook(`./${data.bookName}.pdf`, data.bookName, data.thumbnail, request.cookies.get("auth_token")?.value || "");
 
-	return NextResponse.json({ messaggio: "damn" }, { status: 200, headers });
+	return NextResponse.json({ messaggio: "Book downloaded" }, { status: 200, headers });
 }

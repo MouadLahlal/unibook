@@ -1,14 +1,13 @@
 type User = {
-    id: string,
-    username: string,
-    email: string
-}
+    id: string;
+    username: string;
+    email: string;
+};
 
 type Store = {
-    user: User,
-    setUser: (user: User) => void
-}
+    user: User | null;
+    setUser: (user: User) => void;
+    clearUser: () => void;
+};
 
-export type {
-    Store
-}
+export type { Store, User };

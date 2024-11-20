@@ -13,7 +13,8 @@ const headers = {
 
 export async function POST(request: NextRequest) {
 	const data = await request.json();
-	const cookieStore = await cookies()
+	const cookieStore = await cookies();
+	
 	const formatUser = (user: any) => ({
 		id: user.id,
 		username: user.username,
@@ -27,7 +28,9 @@ export async function POST(request: NextRequest) {
 	
 	if (hash == key) {
 		let user = formatUser(res);
+		
 		cookieStore.set('auth_token', user.id);
+		
 		return NextResponse.json({ user }, { status: 200, headers });
 	}
 
