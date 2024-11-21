@@ -39,7 +39,7 @@ const uploadBook = async (
     };
 
     const createNewBook = async (bookName: string) => {
-        const res = await pool.any(
+        const res = await pool?.any(
             "INSERT INTO files (id, account_id, original_filename, s3_filename, thumbnail, file_size, file_type) values ($1, $2, $3, $4, $5, $6, $7)",
             [idBook, account_id, bookName, randomName, thumbnail, 12, "pdf"]
         );

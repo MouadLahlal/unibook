@@ -22,8 +22,8 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ message: "Server error" }, { status: 504, headers });
 	}
 
-	const encrypt = () => new Promise<{ encrypted: string, iv: string }>((resolve, reject) => {
-		let iv = crypto.randomBytes(16);
+	const encrypt = () => new Promise<{ encrypted: string, iv: string }>((resolve) => {
+		const iv = crypto.randomBytes(16);
 		const cipher = crypto.createCipheriv(algorithm, key, iv);
 		let encrypted_password = cipher.update(data.password, 'utf8', 'hex');
 		encrypted_password += cipher.final('hex');
@@ -31,9 +31,9 @@ export async function POST(request: NextRequest) {
 		resolve({ encrypted: encrypted_password, iv: iv.toString('hex') });
 	});
 
-	let encryptedData = await encrypt();
+	const encryptedData = await encrypt();
 
-	await pool.any("INSERT INTO platform_credentials (id, account_id, platform_name, platform_username, encrypted_password) values ($1, $2, $3, $4, $5)", [crypto.randomBytes(16).toString('hex'), request.cookies.get("auth_token")?.value || "", "hubyoung", data.email, encryptedData]);
+	await pool?.any("INSERT INTO platform_credentials (id, account_id, platform_name, platform_username, encrypted_password) values ($1, $2, $3, $4, $5)", [crypto.randomBytes(16).toString('hex'), request.cookies.get("auth_token")?.value || "", "hubyoung", data.email, encryptedData]);
 
 	return NextResponse.json({ messaggio: "Account saved" }, { status: 200, headers });
 }

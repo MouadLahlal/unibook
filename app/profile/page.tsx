@@ -46,7 +46,7 @@ export default function YourBooksPage() {
                     <div className="grid grid-cols-1 place-items-center">
                         <div className="flex flex-col items-center">
                             <h1 className="text-2xl font-bold mb-4">
-                                Ebook's platform login
+                                Ebook&apos;s platform login
                             </h1>
                             
                             <Tabs defaultValue="account" className="w-[400px]">
@@ -121,7 +121,7 @@ export default function YourBooksPage() {
                                             <CardTitle>Password</CardTitle>
                                             <CardDescription>
                                                 Change your password here. After
-                                                saving, you'll be logged out.
+                                                saving, you&apos;ll be logged out.
                                             </CardDescription>
                                         </CardHeader>
                                         

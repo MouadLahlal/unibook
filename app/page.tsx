@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MainNav } from "@/components/custom/main-nav";
 
-async function getBooks(setBooks: any) {
-    const res = await fetch("/api/books");
-    let temp = await res.json();
+async function getBooks(setBooks: Dispatch<SetStateAction<never[]>>) {
+    const res = await fetch("/api/books", { cache: 'no-store' });
+    const temp = await res.json();
     setBooks(temp.books);
 }
 

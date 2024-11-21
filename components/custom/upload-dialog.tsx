@@ -27,13 +27,21 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 
+type Book = {
+	original_filename: string,
+	s3_filename: string,
+	thumbnail: string,
+    value: string,
+    name: string
+}
+
 export function UploadDialog() {
     const [open, setOpen] = useState(false);
     const [platformPopup, setPlatformPopup] = useState(false);
     const [bookPopup, setBookPopup] = useState(false);
     const [platform, setPlatform] = useState("");
     const [book, setBook] = useState("");
-    const [bookList, setBookList] = useState<Array<any> | null>(null);
+    const [bookList, setBookList] = useState<Array<Book> | null>(null);
     const [loadingBooks, setLoadingBooks] = useState(false);
 
     const platforms = [
@@ -129,7 +137,7 @@ export function UploadDialog() {
                                                 No book found.
                                             </CommandEmpty>
                                             <CommandGroup>
-                                                {bookList.map((el: any) => (
+                                                {bookList.map((el: Book) => (
                                                     <CommandItem
                                                         key={el.value}
                                                         value={el.value}
@@ -175,7 +183,7 @@ export function UploadDialog() {
                             if (!bookList) {
                                 const res = await fetch("/api/hubyoung/book");
                                 if (res.status == 200) {
-                                    let temp = await res.json();
+                                    const temp = await res.json();
                                     setBookList(temp.books);
                                 } else {
                                     alert("Credenziali errate");

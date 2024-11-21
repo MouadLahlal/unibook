@@ -61,7 +61,7 @@ export default function LoginPage() {
                             </Link>
                         </div>
                         <Button type="submit" className="w-full" onClick={async () => {
-                            let res = await fetch("/api/auth/login", {
+                            const res = await fetch("/api/auth/login", {
                                 method: "POST",
                                 body: JSON.stringify({
                                     email,
@@ -69,7 +69,7 @@ export default function LoginPage() {
                                 })
                             });
 
-                            let data = await res.json();
+                            const data = await res.json();
                             
                             if (res.status == 200) {
                                 setUser(data.user);

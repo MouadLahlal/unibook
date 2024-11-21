@@ -65,7 +65,7 @@ export default function LoginPage() {
                             />
                         </div>
                         <Button type="submit" className="w-full" onClick={async () => {
-                            let res = await fetch("/api/auth/signup", {
+                            const res = await fetch("/api/auth/signup", {
                                 method: "POST",
                                 body: JSON.stringify({
                                     email,

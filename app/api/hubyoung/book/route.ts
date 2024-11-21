@@ -17,7 +17,7 @@ const headers = {
 	'Access-Control-Allow-Headers': 'Content-Type, Authorization'
 };
 
-const decrypt = (encryptedObj: {encrypted: string, iv: string}) => new Promise<string>((resolve, reject) => {
+const decrypt = (encryptedObj: {encrypted: string, iv: string}) => new Promise<string>((resolve) => {
 	const algorithm = 'aes-192-cbc';
 	const { encrypted, iv } = encryptedObj;
 	const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(iv, 'hex'));
@@ -27,16 +27,16 @@ const decrypt = (encryptedObj: {encrypted: string, iv: string}) => new Promise<s
 });
 
 const loginHubYoung = async (id: string) => {
-	const res = await pool.one("SELECT * FROM platform_credentials WHERE account_id = $1 AND platform_name = $2", [id, "hubyoung"]);
+	const res = await pool?.one("SELECT * FROM platform_credentials WHERE account_id = $1 AND platform_name = $2", [id, "hubyoung"]);
 
-	let decrypted_password = await decrypt(res.encrypted_password);
+	const decrypted_password = await decrypt(res.encrypted_password);
 
-	let obj = new HubYoung();
+	const obj = new HubYoung();
 
 	try {
 		await obj.login(res.platform_username, decrypted_password);
 		return obj;
-	} catch (error: any) {
+	} catch (error: unknown) {
 		return error;
 	}
 }
@@ -44,7 +44,7 @@ const loginHubYoung = async (id: string) => {
 export async function GET(request: NextRequest) {
 	const hy = await loginHubYoung(request.cookies.get("auth_token")?.value || "");
 
-	let books = await hy.getBooks();
+	const books = await hy.getBooks();
 
 	return NextResponse.json({books}, { status: 200, headers });
 }

@@ -11,11 +11,11 @@ const headers = {
 export async function POST(request: NextRequest) {
     const data = await request.json();
 
-    let id = crypto.randomUUID();
-    let salt = crypto.randomBytes(16).toString("hex");
-	let psw_hash = `${salt}:${crypto.scryptSync(data.password, salt, 64).toString("hex")}`;
+    const id = crypto.randomUUID();
+    const salt = crypto.randomBytes(16).toString("hex");
+	const psw_hash = `${salt}:${crypto.scryptSync(data.password, salt, 64).toString("hex")}`;
 
-    await pool.any("INSERT INTO accounts (id, username, email, password_hash) values ($1, $2, $3, $4)", [id, data.username, data.email, psw_hash]);
+    await pool?.any("INSERT INTO accounts (id, username, email, password_hash) values ($1, $2, $3, $4)", [id, data.username, data.email, psw_hash]);
 
     return NextResponse.json({message: "Account created"}, {status: 200, headers});
 }

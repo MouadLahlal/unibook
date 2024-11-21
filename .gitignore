@@ -38,3 +38,8 @@ next-env.d.ts
 docker-compose.yml
 *.pdf
 bruno/
+
+# Docker
+docker-compose.yml
+Dockerfile
+.dockerignore

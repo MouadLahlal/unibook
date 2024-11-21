@@ -23,7 +23,7 @@ export function UserNav() {
     const logout = async () => {
         clearUser();
 
-        let res = await fetch("/api/auth/logout");
+        const res = await fetch("/api/auth/logout");
         if (res.status == 200) {
             toast({
                 description: "Logged out",
