@@ -12,13 +12,18 @@ import {
 import { useRouter } from "next/navigation";
 import { useStore } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
-import Image from "next/image";
+import { useEffect } from "react";
 
 export function UserNav() {
     const router = useRouter();
     const user = useStore((state) => state.user);
-    const { toast } = useToast();
     const clearUser = useStore((state) => state.clearUser);
+    const fetchUser = useStore((state) => state.fetch);
+    const { toast } = useToast();
+
+    useEffect(() => {
+        fetchUser();
+    }, [fetchUser]);
 
     const logout = async () => {
         clearUser();
@@ -42,15 +47,8 @@ export function UserNav() {
                     className="relative h-8 w-8 rounded-full"
                 >
                     <Avatar className="h-8 w-8">
-                        <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                        <AvatarFallback>
-                            <Image
-                                src={"/avatar.png"}
-                                width={50}
-                                height={50}
-                                alt="Avatar placeholder"
-                            />
-                        </AvatarFallback>
+                        <AvatarImage src="/avatar.png" alt="Avatar placeholder" />
+                        <AvatarFallback>AV</AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>

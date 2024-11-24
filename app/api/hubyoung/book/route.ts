@@ -42,7 +42,9 @@ const loginHubYoung = async (id: string) => {
 }
 
 export async function GET(request: NextRequest) {
-	const hy = await loginHubYoung(request.cookies.get("auth_token")?.value || "");
+	const user = request.headers.get("x-user-id");
+	
+	const hy = await loginHubYoung(user || "");
 
 	const books = await hy.getBooks();
 
@@ -51,13 +53,14 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
 	const data = await request.json();
+	const user = request.headers.get("x-user-id");
 
-	const hy = await loginHubYoung(request.cookies.get("auth_token")?.value || "");
+	const hy = await loginHubYoung(user || "");
 
 	await hy.getBooks();
 	await hy.download(data.bookId);
 
-	await uploadBook(`./${data.bookName}.pdf`, data.bookName, data.thumbnail, request.cookies.get("auth_token")?.value || "");
+	await uploadBook(`./${data.bookName}.pdf`, data.bookName, data.thumbnail, user || "");
 
 	return NextResponse.json({ messaggio: "Book downloaded" }, { status: 200, headers });
 }

@@ -8,11 +8,11 @@ module.exports = {
         ],
     },
 
-    webpack: (config) => {
-        config.resolve.alias.canvas = false;
-        config.infrastructureLogging = { debug: /PackFileCache/ };
-        return config;
-    },
+    // webpack: (config) => {
+    //     config.resolve.alias.canvas = false;
+    //     config.infrastructureLogging = { debug: /PackFileCache/ };
+    //     return config;
+    // },
 
     output: "standalone",
 };

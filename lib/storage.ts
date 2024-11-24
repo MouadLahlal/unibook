@@ -5,19 +5,23 @@ import { env } from "process";
 
 const bucket = "unibook";
 
-const storage = new Minio.Client({
-    endPoint: env.MINIO_ENDPOINT || "",
-    port: 80,
-    useSSL: false,
-    accessKey: env.MINIO_ACCESS_KEY || "",
-    secretKey: env.MINIO_SECRET_KEY || "",
-});
+let storage : Minio.Client | null = null;
+
+if (env.MINIO_ENDPOINT && env.MINIO_PORT && env.MINIO_ACCESS_KEY && env.MINIO_SECRET_KEY) {
+    storage = new Minio.Client({
+        endPoint: env.MINIO_ENDPOINT || "",
+        port: parseInt(env.MINIO_PORT || "") || 80,
+        useSSL: env.MINIO_USESSL == "true" ? true : false,
+        accessKey: env.MINIO_ACCESS_KEY || "",
+        secretKey: env.MINIO_SECRET_KEY || "",
+    });
+}
 
 storage
-    .bucketExists(bucket)
+    ?.bucketExists(bucket)
     .then((res) => {
         if (!res) {
-            storage.makeBucket(bucket).catch((error) => {
+            storage!.makeBucket(bucket).catch((error) => {
                 console.error(error);
             });
         }
@@ -50,7 +54,7 @@ const uploadBook = async (
         console.error(error);
     });
 
-    await storage.fPutObject(bucket, randomName, bookPath, metadata);
+    await storage?.fPutObject(bucket, randomName, bookPath, metadata);
 };
 
 export { storage, uploadBook };

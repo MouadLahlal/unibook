@@ -21,7 +21,7 @@ export default function YourBooksPage() {
 
     return (
         <>
-            <div className="hidden flex-col md:flex">
+            <div className="flex flex-col">
                 <MainNav className="mx-6" />
                 <div className="flex-1 space-y-4 p-8 pt-6">
                     <div className="flex items-center justify-between space-y-2">
@@ -30,7 +30,7 @@ export default function YourBooksPage() {
                         </h2>
                     </div>
 
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-5">
                         {books &&
                             books.map(
                                 (book: {

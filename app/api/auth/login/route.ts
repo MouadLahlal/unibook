@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import * as crypto from "crypto";
 import { cookies } from 'next/headers';
 import { User } from "@/types/store";
+import * as jose from "jose";
+import { env } from "process";
 
 export const dynamic = 'force-dynamic'
 
@@ -29,8 +31,16 @@ export async function POST(request: NextRequest) {
 	
 	if (hash == key) {
 		const user = formatUser(res);
+		const key = new TextEncoder().encode(env.JWT_SECRET || "");
+		const token = await new jose.SignJWT({ user })
+			.setProtectedHeader({ alg: 'HS256' })
+			.setIssuedAt()
+			.setAudience(env.JWT_AUDIENCE || "")
+			.setIssuer(env.JWT_ISSUER || "")
+			.setExpirationTime(env.JWT_EXPIRATION_TIME || "")
+		 	.sign(key);
 		
-		cookieStore.set('auth_token', user.id);
+		cookieStore.set('auth_token', token);
 		
 		return NextResponse.json({ user }, { status: 200, headers });
 	}

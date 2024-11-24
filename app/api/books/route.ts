@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
 	const formatBooks = async (books: Array<Book>) => await Promise.all(
 		books.map(async (book: Book) => {
-			const presigned = await storage.presignedUrl("GET", "unibook", book.s3_filename, 24*60*60);
+			const presigned = await storage?.presignedUrl("GET", "unibook", book.s3_filename, 24*60*60);
 			return ({
 				name: book.original_filename,
 				thumbnail: book.thumbnail,
@@ -28,7 +28,9 @@ export async function GET(request: NextRequest) {
 			});
 	}));
 
-	const res = await pool?.any("SELECT * FROM files WHERE account_id = $1", [request.cookies.get("auth_token")?.value || ""]);
+	const user = request.headers.get("x-user-id");
+
+	const res = await pool?.any("SELECT * FROM files WHERE account_id = $1", [user]);
 
 	let books = null;
 

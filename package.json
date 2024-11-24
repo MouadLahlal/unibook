@@ -23,6 +23,7 @@
     "cmdk": "^1.0.0",
     "fs": "^0.0.1-security",
     "hub-young-downloader": "github:MouadLahlal/hub-young-downloader#v5",
+    "jose": "^5.9.6",
     "lucide-react": "^0.460.0",
     "minio": "^8.0.2",
     "next": "15.0.3",

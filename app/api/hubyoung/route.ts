@@ -31,9 +31,11 @@ export async function POST(request: NextRequest) {
 		resolve({ encrypted: encrypted_password, iv: iv.toString('hex') });
 	});
 
+	const user = request.headers.get("x-user-id");
+
 	const encryptedData = await encrypt();
 
-	await pool?.any("INSERT INTO platform_credentials (id, account_id, platform_name, platform_username, encrypted_password) values ($1, $2, $3, $4, $5)", [crypto.randomBytes(16).toString('hex'), request.cookies.get("auth_token")?.value || "", "hubyoung", data.email, encryptedData]);
+	await pool?.any("INSERT INTO platform_credentials (id, account_id, platform_name, platform_username, encrypted_password) values ($1, $2, $3, $4, $5)", [crypto.randomBytes(16).toString('hex'), user, "hubyoung", data.email, encryptedData]);
 
 	return NextResponse.json({ messaggio: "Account saved" }, { status: 200, headers });
 }
