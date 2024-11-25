@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UNIBOOK
 
-## Getting Started
+## What is Unibook?
 
-First, run the development server:
+Unibook is a platform that allows you to download books from Italian e-book publishers. (Currently, it supports only HubSchool.)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
+- Download books from supported publishers.
+- Easy deployment with Docker.
+- Configurable storage using MinIO.
+- Public instance available for testing.
+- Integrated PDF viewer
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment Instructions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Download the [docker-compose.example.yml](https://raw.githubusercontent.com/MouadLahlal/unibook/refs/heads/main/docker-compose.example.yml) file and rename it by removing .example from the file name.
+2. Set up a [Minio instance](https://github.com/minio/minio). Once MinIO is running, you need to:
+    - [Create a bucket](https://min.io/docs/minio/linux/administration/console/managing-objects.html#minio-console-buckets) named unibook.
+    Generate an access key and a secret key.
+    - [Generate an access key and a secret key](https://min.io/docs/minio/linux/administration/console/security-and-access.html#minio-console-security-access).
+3. Download the [.env.example](https://raw.githubusercontent.com/MouadLahlal/unibook/refs/heads/main/.env.example) file, rename it by removing .example, and configure the required environment variables.
+4. To start the `unibook` and `db` containers, run the following command:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    ```bash
+    docker compose up -d
+    ```
