@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as jose from "jose";
-import { env } from "process";
 import { User } from "./types/store";
 
 interface Payload extends jose.JWTPayload {
@@ -9,7 +8,7 @@ interface Payload extends jose.JWTPayload {
 
 export async function middleware(request: NextRequest) {
     const token: string | null = request.cookies.get("auth_token")?.value || null;
-    const key = new TextEncoder().encode(env.JWT_SECRET || "");
+    const key = new TextEncoder().encode(process.env.JWT_SECRET || "");
     // const protectedRoutes = ['/', '/profile', '/pdf-viewer', '/api'];
     const publicRoutes = ['/auth/login', '/auth/signup', '/api/auth/login', '/api/auth/signup'];
 

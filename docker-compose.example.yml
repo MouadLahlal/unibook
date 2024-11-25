@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    shm_size: 128mb
+    networks:
+      - unibook
+    environment:
+      POSTGRES_PASSWORD: # database password
+  unibook:
+    image: unibook
+    restart: unless-stopped
+    networks:
+      - unibook
+    ports:
+      - 3000:3000
+    environment:
+      - MINIO_ENDPOINT= # minio instance endpoint
+      - MINIO_PORT= # minio instance port
+      - MINIO_ACCESS_KEY= # minio access key
+      - MINIO_SECRET_KEY= # minio secret key
+      - CRYPTO_PSW= # password for encryption
+      - CRYPTO_SALT= # salt for encryption
+      - JWT_SECRET= # secret for JsonWebTokens
+      - JWT_AUDIENCE= # jwt audience (your domain)
+      - JWT_ISSUER= # jwt issuer (your domain)
+      - DB_HOST= # database host (es. db)
+      - DB_PORT= # database port (es. 5432)
+      - DB_DATABASE= # database name (es. postgres)
+      - DB_USER= # database username (es. postgres)
+      - DB_PASSWORD= # database password
+
+networks:
+  unibook:

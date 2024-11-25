@@ -37,10 +37,10 @@ export async function POST(request: NextRequest) {
 			.setIssuedAt()
 			.setAudience(env.JWT_AUDIENCE || "")
 			.setIssuer(env.JWT_ISSUER || "")
-			.setExpirationTime(env.JWT_EXPIRATION_TIME || "")
+			.setExpirationTime("1 day")
 		 	.sign(key);
 		
-		cookieStore.set('auth_token', token);
+		cookieStore.set('auth_token', token, { sameSite: true });
 		
 		return NextResponse.json({ user }, { status: 200, headers });
 	}

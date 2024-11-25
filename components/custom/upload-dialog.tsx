@@ -26,6 +26,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 type Book = {
 	original_filename: string,
@@ -43,6 +44,7 @@ export function UploadDialog() {
     const [book, setBook] = useState("");
     const [bookList, setBookList] = useState<Array<Book> | null>(null);
     const [loadingBooks, setLoadingBooks] = useState(false);
+    const router = useRouter();
 
     const platforms = [
         {
@@ -56,6 +58,7 @@ export function UploadDialog() {
         setBook("");
         setBookList(null);
         setOpen(false);
+        router.refresh();
     };
 
     return (

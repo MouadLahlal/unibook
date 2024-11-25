@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
@@ -6,10 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardHeader,
     CardFooter,
-    CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MainNav } from "@/components/custom/main-nav";
@@ -49,17 +47,17 @@ export default function YourBooksPage() {
                                 Ebook&apos;s platform login
                             </h1>
                             
-                            <Tabs defaultValue="account" className="w-[400px]">
+                            <Tabs defaultValue="hubyoung" className="w-[400px]">
                                 <TabsList className="grid w-full grid-cols-2">
-                                    <TabsTrigger value="account">
+                                    <TabsTrigger value="hubyoung">
                                         HubYoung
                                     </TabsTrigger>
-                                    <TabsTrigger value="password">
+                                    <TabsTrigger value="pearson" disabled>
                                         Pearson (coming soon...)
                                     </TabsTrigger>
                                 </TabsList>
                                 
-                                <TabsContent value="account">
+                                <TabsContent value="hubyoung">
                                     <Card className="p-4">
                                         <CardContent className="space-y-2">
                                             <div className="space-y-1">
@@ -81,6 +79,7 @@ export default function YourBooksPage() {
                                                 <Input
                                                     id="password"
                                                     placeholder="Insert your password..."
+                                                    type="password"
                                                     onChange={(e) =>
                                                         setPassword(
                                                             e.target.value
@@ -115,7 +114,7 @@ export default function YourBooksPage() {
                                     </Card>
                                 </TabsContent>
                                 
-                                <TabsContent value="password">
+                                {/* <TabsContent value="pearson">
                                     <Card>
                                         <CardHeader>
                                             <CardTitle>Password</CardTitle>
@@ -151,7 +150,7 @@ export default function YourBooksPage() {
                                             <Button>Save password</Button>
                                         </CardFooter>
                                     </Card>
-                                </TabsContent>
+                                </TabsContent> */}
                             </Tabs>
                         </div>
                     </div>

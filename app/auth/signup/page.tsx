@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
+import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
 
@@ -19,6 +20,7 @@ export default function LoginPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const { toast } = useToast();
+    const router = useRouter();
 
     return (
         <div className="flex h-screen w-full items-center justify-center px-4">
@@ -78,6 +80,7 @@ export default function LoginPage() {
                                 toast({
                                     description: "Account created"
                                 });
+                                router.push("/");
                             }
                         }}>
                             Signup

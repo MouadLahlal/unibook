@@ -73,6 +73,7 @@ export default function LoginPage() {
                             
                             if (res.status == 200) {
                                 setUser(data.user);
+                                console.log("logged");
                                 router.push("/");
                             }
                         }}>

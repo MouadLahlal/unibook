@@ -1,4 +1,4 @@
-CREATE TABLE accounts (
+CREATE TABLE IF NOT EXISTS accounts (
     id VARCHAR(255) PRIMARY KEY,
     username VARCHAR(100) UNIQUE NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE accounts (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE files (
+CREATE TABLE IF NOT EXISTS files (
     id VARCHAR(255) PRIMARY KEY,
     account_id VARCHAR(255) REFERENCES accounts(id) ON DELETE CASCADE,
     original_filename VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE files (
     CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
 );
 
-CREATE TABLE platform_credentials (
+CREATE TABLE IF NOT EXISTS platform_credentials (
     id VARCHAR(255) PRIMARY KEY,
     account_id VARCHAR(255) REFERENCES accounts(id) ON DELETE CASCADE,
     platform_name VARCHAR(100) NOT NULL,
@@ -31,8 +31,8 @@ CREATE TABLE platform_credentials (
     CONSTRAINT fk_account_platform FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
 );
 
-CREATE INDEX idx_account_platform ON platform_credentials(account_id);
-CREATE INDEX idx_account_id ON files(account_id);
+CREATE INDEX IF NOT EXISTS idx_account_platform ON platform_credentials(account_id);
+CREATE INDEX IF NOT EXISTS idx_account_id ON files(account_id);
 
 -- Esempio
 -- INSERT INTO accounts (username, email, password_hash)
