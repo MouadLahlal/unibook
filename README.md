@@ -14,7 +14,7 @@ Unibook is a platform that allows you to download books from Italian e-book publ
 ## Deployment Instructions
 
 1. Download the [docker-compose.example.yml](https://raw.githubusercontent.com/MouadLahlal/unibook/refs/heads/main/docker-compose.example.yml) file and rename it by removing .example from the file name.
-2. Set up a [Minio instance](https://github.com/minio/minio). Once MinIO is running, you need to:
+2. Set up a [Minio instance](https://min.io/docs/minio/kubernetes/upstream/index.html). Once MinIO is running, you need to:
     - [Create a bucket](https://min.io/docs/minio/linux/administration/console/managing-objects.html#minio-console-buckets) named unibook.
     Generate an access key and a secret key.
     - [Generate an access key and a secret key](https://min.io/docs/minio/linux/administration/console/security-and-access.html#minio-console-security-access).
