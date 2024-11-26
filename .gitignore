@@ -41,5 +41,3 @@ bruno/
 
 # Docker
 docker-compose.yml
-Dockerfile
-.dockerignore
