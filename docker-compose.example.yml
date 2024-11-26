@@ -15,20 +15,20 @@ services:
     ports:
       - 3000:3000
     environment:
-      - MINIO_ENDPOINT= # minio instance endpoint
-      - MINIO_PORT= # minio instance port
-      - MINIO_ACCESS_KEY= # minio access key
-      - MINIO_SECRET_KEY= # minio secret key
-      - CRYPTO_PSW= # password for encryption
-      - CRYPTO_SALT= # salt for encryption
-      - JWT_SECRET= # secret for JsonWebTokens
-      - JWT_AUDIENCE= # jwt audience (your domain)
-      - JWT_ISSUER= # jwt issuer (your domain)
-      - DB_HOST= # database host (es. db)
-      - DB_PORT= # database port (es. 5432)
-      - DB_DATABASE= # database name (es. postgres)
-      - DB_USER= # database username (es. postgres)
-      - DB_PASSWORD= # database password
+      - MINIO_ENDPOINT=$MINIO_ENDPOINT # minio instance endpoint
+      - MINIO_PORT=$MINIO_PORT # minio instance port
+      - MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY # minio access key
+      - MINIO_SECRET_KEY=$MINIO_SECRET_KEY # minio secret key
+      - CRYPTO_PSW=$CRYPTO_PSW # password for encryption
+      - CRYPTO_SALT=$CRYPTO_SALT # salt for encryption
+      - JWT_SECRET=$JWT_SECRET # secret for JsonWebTokens
+      - JWT_AUDIENCE=$JWT_AUDIENCE # jwt audience (your domain)
+      - JWT_ISSUER=$JWT_ISSUER # jwt issuer (your domain)
+      - DB_HOST=db # database host (es. db)
+      - DB_PORT=5432 # database port (es. 5432)
+      - DB_DATABASE=postgres # database name (es. postgres)
+      - DB_USER=postgres # database username (es. postgres)
+      - DB_PASSWORD=$DB_PASSWORD # database password
 
 networks:
   unibook:
