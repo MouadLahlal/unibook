@@ -7,6 +7,12 @@ services:
       - unibook
     environment:
       POSTGRES_PASSWORD: # database password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
   unibook:
     image: unibook
     restart: unless-stopped
@@ -19,6 +25,7 @@ services:
       - MINIO_PORT=$MINIO_PORT # minio instance port
       - MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY # minio access key
       - MINIO_SECRET_KEY=$MINIO_SECRET_KEY # minio secret key
+      - MINIO_USESSL=true # use https/http to connect to minio (true or false)
       - CRYPTO_PSW=$CRYPTO_PSW # password for encryption
       - CRYPTO_SALT=$CRYPTO_SALT # salt for encryption
       - JWT_SECRET=$JWT_SECRET # secret for JsonWebTokens
@@ -29,6 +36,10 @@ services:
       - DB_DATABASE=postgres # database name (es. postgres)
       - DB_USER=postgres # database username (es. postgres)
       - DB_PASSWORD=$DB_PASSWORD # database password
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
 
 networks:
   unibook:

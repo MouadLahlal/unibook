@@ -14,7 +14,7 @@ export async function register() {
             const sql = await fs.readFile('./schema.sql', 'utf8');
             pool.any(sql);
             console.log("database changed");
-            pgp.end();
+            // pgp.end();
         } catch (error) {}
     }
 }

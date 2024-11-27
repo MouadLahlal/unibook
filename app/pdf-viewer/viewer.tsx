@@ -6,9 +6,9 @@ import { Document, Page } from "react-pdf";
 import { Button } from "@/components/ui/button";
 import { MainNav } from "@/components/custom/main-nav";
 import { useSearchParams } from "next/navigation";
-import "react-pdf/dist/Page/TextLayer.css";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+// import "react-pdf/dist/Page/TextLayer.css";
+// import "react-pdf/dist/Page/AnnotationLayer.css";
+// import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.mjs`;
 

@@ -1,15 +1,14 @@
 import pgPromise, { IDatabase } from "pg-promise";
-import { env } from "process";
 
 let pool: IDatabase<unknown> | null = null;
 
 const pgp = pgPromise();
 pool = pgp({
-    host: env.DB_HOST,
-    port: parseInt(env.DB_PORT || "") || 5432,
-    database: env.DB_DATABASE,
-    user: env.DB_USER,
-    password: env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT || "") || 5432,
+    database: process.env.DB_DATABASE,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
 });
 
 // pool?.connect()
