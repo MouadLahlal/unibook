@@ -2,15 +2,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import Image from "next/image";
+import { useStore } from "@/lib/store";
+import { Spinner } from "@/components/ui/spinner";
 
 export function Search() {
-
+	const [loading, setLoading] = useState<boolean>(false);
     const [searchString, setSearchString] = useState<string>("");
-
+	const setBooks = useStore((state) => state.setBooks);
     const search = async () => {
+		setLoading(true);
         const res = await fetch(`/api/books/search?query=${searchString}`);
         const data = await res.json();
-        console.log(data);
+		setBooks(data.books);
+		setLoading(false);
     }
 
     return (
@@ -27,7 +31,12 @@ export function Search() {
                 onClick={() => search()}
                 className="p-2"
             >
-                <Image src={"/icons/search.svg"} alt="search icon" height={32} width={32} />
+            	{
+					loading
+						? <Spinner className="text-black" />
+						: <Image src={"/icons/search.svg"} alt="search icon" height={32} width={32} /> 
+				}
+                
             </Button>
         </div>
     );

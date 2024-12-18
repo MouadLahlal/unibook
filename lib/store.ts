@@ -8,7 +8,9 @@ const useStore = create<Store>()((set) => ({
     fetch: async () => {
         const res = await fetch("/api/auth");
         set({ user: await res.json().then((body) => body.user) })
-    }
+    },
+	books: null,
+	setBooks: (books) => set({ books })
 }));
 
 export { useStore };

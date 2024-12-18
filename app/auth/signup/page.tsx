@@ -80,7 +80,7 @@ export default function LoginPage() {
                                 toast({
                                     description: "Account created"
                                 });
-                                router.push("/");
+                                router.push("/auth/login");
                             }
                         }}>
                             Signup

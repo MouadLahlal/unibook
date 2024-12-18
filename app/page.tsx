@@ -5,15 +5,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MainNav } from "@/components/custom/main-nav";
+import { useStore } from "@/lib/store";
 
-async function getBooks(setBooks: Dispatch<SetStateAction<never[]>>) {
+async function getBooks(setBooks: any) {
     const res = await fetch("/api/books", { cache: 'no-store' });
     const temp = await res.json();
     setBooks(temp.books);
 }
 
 export default function YourBooksPage() {
-    const [books, setBooks] = useState([]);
+	const books = useStore((state) => state.books);
+	const setBooks = useStore((state) => state.setBooks);
 
     useEffect(() => {
         getBooks(setBooks);
