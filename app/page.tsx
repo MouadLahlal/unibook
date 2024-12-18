@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MainNav } from "@/components/custom/main-nav";
 import { useStore } from "@/lib/store";
+import { Book } from "@/types/store";
 
-async function getBooks(setBooks: any) {
+async function getBooks(setBooks: (books: Book[]) => void) {
     const res = await fetch("/api/books", { cache: 'no-store' });
     const temp = await res.json();
     setBooks(temp.books);
@@ -19,7 +20,7 @@ export default function YourBooksPage() {
 
     useEffect(() => {
         getBooks(setBooks);
-    }, []);
+    }, [setBooks]);
 
     return (
         <>

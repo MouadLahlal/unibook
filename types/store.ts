@@ -19,4 +19,4 @@ type Store = {
 	setBooks: (books: Book[]) => void;
 };
 
-export type { Store, User };
+export type { Store, User, Book };
