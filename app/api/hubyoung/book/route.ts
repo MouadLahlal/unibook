@@ -36,7 +36,7 @@ const loginHubYoung = async (id: string) : Promise<{ client: HubYoung, err: unkn
 	try {
 		await obj.login(res.platform_username, decrypted_password);
 		return { client: obj, err: null };
-	} catch (error: any) {
+	} catch (error: unknown) {
 		return { client: obj, err: error };
 	}
 }
