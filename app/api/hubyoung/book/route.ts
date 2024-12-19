@@ -26,7 +26,7 @@ const decrypt = (encryptedObj: {encrypted: string, iv: string}) => new Promise<s
 	resolve(decrypted);
 });
 
-const loginHubYoung = async (id: string) => {
+const loginHubYoung = async (id: string) : Promise<{ client: HubYoung, err: unknown }> => {
 	const res = await pool?.one("SELECT * FROM platform_credentials WHERE account_id = $1 AND platform_name = $2", [id, "hubyoung"]);
 
 	const decrypted_password = await decrypt(res.encrypted_password);
@@ -35,18 +35,22 @@ const loginHubYoung = async (id: string) => {
 
 	try {
 		await obj.login(res.platform_username, decrypted_password);
-		return obj;
-	} catch (error: unknown) {
-		return error;
+		return { client: obj, err: null };
+	} catch (error: any) {
+		return { client: obj, err: error };
 	}
 }
 
 export async function GET(request: NextRequest) {
 	const user = request.headers.get("x-user-id");
 	
-	const hy = await loginHubYoung(user || "");
+	const { client, err } = await loginHubYoung(user || "");
 
-	const books = await hy.getBooks();
+	if (err) {
+		return NextResponse.json({ messaggio: "Server error" }, { status: 500, headers });
+	}
+
+	const books = await client.getBooks();
 
 	return NextResponse.json({books}, { status: 200, headers });
 }
@@ -55,10 +59,14 @@ export async function POST(request: NextRequest) {
 	const data = await request.json();
 	const user = request.headers.get("x-user-id");
 
-	const hy = await loginHubYoung(user || "");
+	const { client, err } = await loginHubYoung(user || "");
 
-	await hy.getBooks();
-	await hy.download(data.bookId);
+	if (err) {
+		return NextResponse.json({ messaggio: "Server error" }, { status: 500, headers });
+	}
+
+	await client.getBooks();
+	await client.download(data.bookId);
 
 	await uploadBook(`./${data.bookName}.pdf`, data.bookName, data.thumbnail, user || "");
 
